@@ -1,0 +1,8 @@
+<h3 class="text-center">Gesamt</h3>
+<ul class="list-inline model-list center-pos">
+  {{#each sortedUsers as |user|}}
+    {{user-tile user=user}}
+  {{else}}
+      <li>No sharing users.</li>
+  {{/each}}
+</ul>

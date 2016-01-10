@@ -1,0 +1,9 @@
+<h3 class='text-center'>Konto aktivieren</h3>
+{{error-list errors=confirmationErrors messagePath='title' errorsHeading='Es sind leider folgende Fehler aufgetreten:'}}
+{{#if confirmationSuccess}}
+  <div class='text-center'>
+    <div class='alert alert-success'>
+      Dein Konto wurde erfolgreich aktiviert! <a {{action 'transitionToLoginRoute'}} href="javascript:void(0)" class="alert-link">Melde Dich jetzt an.</a>
+    </div>
+  </div>
+{{/if}}

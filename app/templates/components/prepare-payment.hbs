@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+  <div class="panel-body text-center">
+    <p>
+      Du möchtest {{number-precision contribution.amount}} € an {{contribution.project.name}} spenden. Vielen Dank!
+    </p>
+    <div class="alert {{if donationID 'alert-success' 'alert-info'}}" role="alert">
+      {{#if donationID}}
+        Weiter zu Paypal?
+      {{else}}
+        Warte auf PayPal...
+      {{/if}}
+    </div>
+    <button {{action 'clickPay'}} class='btn btn-lg btn-success' disabled={{unless donationID true}}>
+      Ja!
+    </button>
+    <button {{action 'clickNo'}} class='btn btn-lg btn-danger' disabled={{unless donationID true}}>
+      Nein
+    </button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<h3 class="text-center">Anmelden</h3>
+{{error-list errors=loginErrors messagePath='message' errorsHeading='Beim Anmelden sind leider folgende Fehler aufgetreten:'}}
+<form class="form-horizontal" {{action 'authenticate' on='submit'}}>
+  <div class='form-group'>
+    <label for='identification' class="col-sm-3 control-label">Email</label>
+    <div class="col-sm-7">
+      {{input id='identification' placeholder='Enter Email' class='form-control' type='text' value=identification}}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label for='password' class="col-sm-3 control-label">Passwort</label>
+    <div class="col-sm-7">
+      {{input id='password' placeholder='Passwort' class='form-control' type='password' value=password}}
+    </div>
+  </div>
+  <div class="text-center">
+    <button class='btn btn-lg btn-primary' type='submit'>Anmelden</button>
+  </div>
+</form>
+<hr>
+<p>
+  Du hast noch kein Konto? {{#link-to 'users.new'}}Hier registrieren{{/link-to}}
+</p>
+<p>
+  Passwort vergessen? {{#link-to 'users.password.forgotten'}}Beantrage ein Neues{{/link-to}}
+</p>

@@ -1,0 +1,82 @@
+<h3 class='text-center'>Einstellungen</h3>
+{{error-list errors=uploadErrors messagePath='title' errorsHeading='Beim Hochladen sind leider folgende Fehler aufgetreten:'}}
+<div class='row'>
+  {{#pl-uploader for="upload-image" multiple=false max-file-size=1024000 extensions="jpg jpeg png gif" onfileadd="uploadImage" as |queue dropzone|}}
+    <div class="dropzone thumbnail text-center col-sm-4 col-sm-offset-4" id={{dropzone.id}}>
+      <div class="avatar-wrapper">
+        <img class="avatar picture-upload"
+          src="{{fetch-picture (unless model.profilePictureExternal imagesService.userLogoPath) model.profile_picture_url imagesService.userLogoDefault}}"
+          alt={{model.name}}
+        >
+      </div>
+      <span class="caption">
+        <h4>Profilbild wechseln</h4>
+        <p>
+          {{#if dropzone.active}}
+            {{#if dropzone.valid}}
+              Ablegen zum Hochladen
+            {{else}}
+              Datei ungültig
+            {{/if}}
+          {{else if queue.length}}
+            Bild wird hochgeladen
+          {{else}}
+            {{#if dropzone.enabled}}
+              Lege Dein Bild hier ab oder
+            {{/if}}
+            <a id="upload-image">wähle eine Datei.</a>
+            <p class='small'>Nur JPEG, PNG oder GIF. Maximal 400KB.</p>
+          {{/if}}
+        </p>
+      </span>
+    </div>
+  {{/pl-uploader}}
+</div>
+{{#unless formValid}}
+  <div class='alert alert-warning'>Fast geschafft! Bitte korrigiere noch die rot markierten Felder.</div>
+{{/unless}}
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Beim Speichern sind leider folgende Fehler aufgetreten:'}}
+<form class='form-horizontal' {{action 'saveSettings' on='submit'}}>
+  {{#horizontal-aupac class='aupac-field' label='Nutzername' mandatory=true errors=errors.model.name labelFor='username' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='username' placeholder='Nutzername' class='form-control' type='text' value=model.name}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Email' mandatory=true errors=errors.model.email labelFor='identification' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='identification' placeholder='Email' class='form-control' type='text' value=model.email}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Neues Passwort' errors=errors.password labelFor='password' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='password' placeholder='Neues Passwort' class='form-control' type='password' value=password key-press='passwordEntered'}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Passwort bestätigen' errors=errors.passwordConfirmation canShowErrors=(if passwordChanged true) labelFor='passwordConfirmation' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='passwordConfirmation' placeholder='Passwort bestätigen' class='form-control' type='password' value=passwordConfirmation}}
+  {{/horizontal-aupac}}
+  <div class='form-group'>
+    <label for='privacy' class='col-sm-3 control-label'>Privatsphäre</label>
+    <div class='col-sm-7' id='privacy'>
+      <div class='radio'>
+        {{#radio-button
+          value='full'
+          groupValue=model.contribution_visibility
+          changed=''}}
+            Zeige Spenden
+        {{/radio-button}}
+      </div>
+      <div class='radio'>
+        {{#radio-button
+          value='hidden'
+          groupValue=model.contribution_visibility
+          changed=''}}
+            Verberge Spenden
+        {{/radio-button}}
+      </div>
+    </div>
+  </div>
+  <div class='text-center'>
+    <button type='submit' class='btn btn-success'>
+      Speichern
+    </button>
+    {{link-to 'Abbrechen' 'index' class='btn btn-warning'}}
+  </div>
+</form>

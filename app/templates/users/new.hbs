@@ -1,0 +1,44 @@
+<h3 class='text-center'>Neues Benutzerkonto</h3>
+{{#unless formValid}}
+  <div class='alert alert-warning'>Fast geschafft! Bitte korrigiere noch die rot markierten Felder.</div>
+{{/unless}}
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Beim Erstellen des Benutzerkontos sind leider folgende Fehler aufgetreten:'}}
+<form id='registration-form' class='form-horizontal' {{action 'registerUser' on='submit'}}>
+  {{#horizontal-aupac class='aupac-field' label='Nutzername' mandatory=true errors=errors.name labelFor='username' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='username' placeholder='Nutzername' class='form-control' type='text' value=name}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Email' mandatory=true errors=errors.email labelFor='identification' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='identification' placeholder='Email' class='form-control' type='text' value=email}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Passwort' mandatory=true errors=errors.password labelFor='password' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='password' placeholder='Passwort' class='form-control' type='password' value=password}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Passwort bestätigen' mandatory=true errors=errors.passwordConfirmation canShowErrors=(if passwordChanged true) labelFor='passwordConfirmation' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='passwordConfirmation' placeholder='Passwort bestätigen' class='form-control' type='password' value=passwordConfirmation}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Einladung' mandatory=true errors=errors.invite labelFor='invite' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='invite' placeholder='Einladung' class='form-control' type='text' value=invite}}
+  {{/horizontal-aupac}}
+  <div class='text-center'>
+    <button type='submit' class='btn btn-success'>
+      Registrieren
+    </button>
+  </div>
+</form>
+<hr>
+<span>
+  Du hast schon ein Konto? {{#link-to 'login'}}Hier anmelden{{/link-to}}
+</span>
+{{#if isShowingModal}}
+  {{#tether-dialog close="toggleModal" translucentOverlay=true target='#registration-form'}}
+    <div class="text-center">
+      <h4>Vielen Dank für die Registrierung!</h4>
+      <p>Du erhälts nun eine Email an {{email}}. Folge dem Link in der Mail, um Dein Konto zu bestätigen. Erst dann kannst Du Dich anmelden.</p>
+      <button class='btn btn-warning' {{action 'toggleModal'}}>Verstanden</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}

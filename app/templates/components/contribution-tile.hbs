@@ -1,0 +1,86 @@
+<li class="models">
+  <div class="panel panel-success contribution-stats">
+    <div class="panel-heading text-center">
+      <span class="{{if contribution.payment 'contribution-title'}}">{{link-to contribution.title 'contributions.show' contribution}}</span>
+      {{#if contribution.payment}}
+        <span class="checkmark">{{fa-icon imagesService.checked.icon fixedWidth=true class=imagesService.checked.size}}</span>
+      {{/if}}
+    </div>
+    <div class='panel-body'>
+      <div class="contribution-thumbs">
+        {{#if contribution.project}}
+          {{#link-to 'projects.show' contribution.project tooltipContent=contribution.project.name}}
+            <div class="thumbnail project-thumb">
+              <div class="logo-wrapper">
+                <img class="model-logo" src="{{fetch-picture (unless contribution.project.logoExternal imagesService.projectLogoPath) contribution.project.logo_url imagesService.projectLogoDefault}}" alt={{contribution.project.name}}>
+              </div>
+            </div>
+          {{/link-to}}
+        {{else}}
+          {{#link-to 'contributions.show' contribution tooltipContent='Noch kein Projekt'}}
+            <div class="thumbnail project-thumb">
+              <div class="logo-wrapper">
+                {{fa-icon imagesService.empty.icon}}
+              </div>
+            </div>
+          {{/link-to}}
+        {{/if}}
+        {{#if contribution.project}}
+          {{#link-to 'matchers.show' contribution.matcher tooltipContent=contribution.matcher.name}}
+            <div class="thumbnail matcher-thumb">
+              <div class="logo-wrapper">
+                <img class="model-logo" src="{{fetch-picture (unless contribution.matcher.logoExternal imagesService.matcherLogoPath) contribution.matcher.logo_url imagesService.matcherLogoDefault}}" alt={{contribution.matcher.name}}>
+              </div>
+            </div>
+          {{/link-to}}
+        {{else}}
+          {{#link-to 'contributions.show' contribution tooltipContent='Noch kein Matcher'}}
+            <div class="thumbnail matcher-thumb">
+              <div class="logo-wrapper">
+                {{fa-icon imagesService.empty.icon}}
+              </div>
+            </div>
+          {{/link-to}}
+        {{/if}}
+      </div>
+      <div class="panel panel-info panel-amount">
+        <div class="panel-heading panel-amount text-center">
+          {{#if contribution.trip}}
+            {{contribution.trip.length}} km * {{contribution.trip.multiplier}} €/km =
+          {{/if}}
+            {{number-precision contribution.amount}} €
+        </div>
+      </div>
+      {{#if contribution.trip}}
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+              <span class="label label-warning">{{inline-svg imagesService.origin.svg class='input-icon'}}</span>
+            {{truncate-string contribution.trip.origin}}
+          </li>
+          <li class="list-group-item list-group-item-info">
+              <span class="label label-warning">{{inline-svg imagesService.destination.svg class='input-icon'}}</span>
+            {{truncate-string contribution.trip.destination}}
+          </li>
+        </ul>
+      {{/if}}
+      {{#if contribution.payment.matchingInfo}}
+        <div class="matching-info">
+          <span class="label label-primary label-matching">Matching:</span>
+          <div class="progress">
+            <div class="progress-bar {{progressClass}}" role="progressbar" aria-valuenow={{progressStatus}} aria-valuemin="0" aria-valuemax="100" style={{progressStyle}}>
+              <span>{{contribution.payment.matchingInfo}}</span>
+            </div>
+          </div>
+        </div>
+      {{!facebook-share FACEBOOK_APP_ID='xxx'}}
+      {{else}}
+        <div class="text-center">
+          {{link-to 'spenden' 'contributions.donate' contribution tagName='button' class='btn btn-sm btn-success' disabled=(unless contribution.project true)}}
+            <button role="button" class='btn btn-sm btn-danger' {{action 'clickDelete' contribution}}>
+              löschen
+            </button>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</li>

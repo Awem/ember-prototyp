@@ -1,0 +1,23 @@
+<h3 class='text-center'>Neue Gruppe</h3>
+{{#unless formValid}}
+  <div class='alert alert-warning'>Fast geschafft! Bitte korrigiere noch die rot markierten Felder.</div>
+{{/unless}}
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Beim Erstellen der Gruppe sind leider folgende Fehler aufgetreten:'}}
+<form id='group-form' class='form-horizontal' {{action 'createGroup' on='submit'}}>
+  {{#horizontal-aupac class='aupac-field' label='Gruppenname' mandatory=true errors=errors.name labelFor='name' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='name' placeholder='Gruppenname' class='form-control' type='text' value=name}}
+  {{/horizontal-aupac}}
+
+  <div class="form-group">
+    <label for="description" class="control-label col-sm-3">Beschreibung</label>
+    <div class="col-sm-7">
+      {{textarea id='description' placeholder='Beschreibung' class="form-control" value=description rows="6"}}
+    </div>
+  </div>
+
+  <div class='text-center'>
+    <button type='submit' class='btn btn-success'>
+      Speichern
+    </button>
+  </div>
+</form>

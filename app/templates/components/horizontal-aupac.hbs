@@ -1,0 +1,24 @@
+<label for="{{labelFor}}" class="control-label {{labelClass}}">{{label}}{{#if mandatory}}<span class="text-danger">*</span>{{/if}}</label> <!--modified-->
+<div class="{{inputWrapperClass}}"> <!--modified-->
+  {{#if hasIcon}}
+      <div class="input-group">
+        {{#if leftIcon}}
+            <span class="input-group-addon"><i class="{{leftIcon}}"></i></span>
+        {{/if}}
+        {{yield}}
+        {{#if rightIcon}}
+            <span class="input-group-addon"><i class="{{rightIcon}}"></i></span>
+        {{/if}}
+          <span class="form-control-feedback"><i class="{{feedbackIcon}}"></i></span>
+      </div>
+    {{#if canShowErrors}}
+        <span class="help-block">{{helpText}}</span>
+    {{/if}}
+  {{else}}
+    {{yield}}
+    {{#if canShowErrors}}
+        <span class="help-block">{{helpText}}</span>
+    {{/if}}
+      <span class="form-control-feedback"><i class="{{feedbackIcon}}"></i></span>
+  {{/if}}
+</div> <!--modified-->

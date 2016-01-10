@@ -1,0 +1,23 @@
+<h3 class="text-center">Neues Passwort beantragen</h3>
+{{error-list errors=requestErrors messagePath='title' errorsHeading='Beim Senden der Anfrage sind leider folgende Fehler aufgetreten:'}}
+<form id="forgotten-form" class="form-horizontal" {{action 'requestInstructions' on='submit'}}>
+  <p class="text-center">Bitte trage hier die Email-Adresse ein, mit der Du Dich bei DRYW registriert hast</p>
+  <div class='form-group'>
+    <label for='identification' class="col-sm-3 control-label">Email</label>
+    <div class="col-sm-7">
+      {{input id='email' placeholder='Email Adresse' class='form-control' type='text' value=email}}
+    </div>
+  </div>
+  <div class="text-center">
+    <button class='btn btn-lg btn-primary' type='submit'>Abschicken</button>
+  </div>
+</form>
+{{#if isShowingModal}}
+  {{#tether-dialog close="toggleModal" translucentOverlay=true target='#forgotten-form'}}
+    <div class="text-center">
+      <h4>Deine Anfrage ist bei uns angekommen</h4>
+      <p>Wir schicken nun eine Email an {{email}}. Folge dem Link in der Mail, um ein neues Passwort zu setzen.</p>
+      <button class='btn btn-warning' {{action 'toggleModal'}}>Verstanden</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}

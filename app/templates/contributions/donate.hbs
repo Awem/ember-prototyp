@@ -1,0 +1,11 @@
+<h4 class="text-center">Spenden</h4>
+{{#if apiErrors}}
+  {{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Beim Zahlen sind leider folgende Fehler aufgetreten:'}}
+  <div class="row text-center">
+    <button {{action 'abort'}} class='btn btn-lg btn-warning'>
+      Zurück
+    </button>
+  </div>
+{{else}}
+  {{prepare-payment contribution=model pay="payTrip" abort="abortPayment" donationID=donationID}}
+{{/if}}

@@ -1,0 +1,50 @@
+<li class="models">
+  <span class="thumbnail">
+    <div class="logo-wrapper">
+      <img class="model-logo"
+        src="{{fetch-picture imagesService.groupLogoPath group.logo_url imagesService.groupLogoDefault}}"
+        alt={{group.name}}
+      >
+    </div>
+    <span class="caption">
+      <h4 class="text-center">
+        {{link-to group.name 'groups.show' group}}
+      </h4>
+      <p class="text-center">
+        {{group.description}}
+      </p>
+      <div class="stats">
+        <span>
+          <span class="badge">{{group.total_don}} €</span>
+        </span>
+        <span>
+          <span class="badge">{{group.total_km}} km</span>
+        </span>
+        <span>
+          Spenden <span class="badge">{{group.contributions_count}}</span>
+        </span>
+      </div>
+    </span>
+    {{#if (not-eq group.membership_status 'forbidden')}}
+      <div class="text-center">
+        {{#if (eq group.membership_status 'possible')}}
+          <button role="button" class='btn btn-sm btn-success' {{action 'clickJoin' group}}>
+            beitreten
+          </button>
+        {{else if (eq group.membership_status 'pending')}}
+          <button role="button" class='btn btn-sm btn-warning' {{action 'clickLeave' group}}>
+            Anfrage abbrechen
+          </button>
+        {{else if (eq group.membership_status 'member')}}
+          <button role="button" class='btn btn-sm btn-warning' {{action 'clickLeave' group}}>
+            austreten
+          </button>
+        {{else if (eq group.membership_status 'founder')}}
+          <button role="button" class='btn btn-sm btn-danger' {{action 'clickDestroy' group}}>
+            löschen
+          </button>
+        {{/if}}
+      </div>
+    {{/if}}
+  </span>
+</li>

@@ -1,0 +1,9 @@
+{{#if showStartScreen}}
+  {{start-screen slide=slide home='hideStartScreen' login='goToLogin' register='registerAccount'}}
+{{else}}
+  {{nav-bar login='transitionToLoginRoute' register='transitionToRegistrationRoute'}}
+  <!--<div class="container-fluid main-content">-->
+  <div class="container main-content">
+    {{outlet}}
+  </div>
+{{/if}}

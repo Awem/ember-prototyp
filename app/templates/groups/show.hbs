@@ -1,0 +1,134 @@
+{{error-list errors=uploadErrors messagePath='title' errorsHeading='Beim Hochladen sind leider folgende Fehler aufgetreten:'}}
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Beim Speichern sind leider folgende Fehler aufgetreten:'}}
+<span class="thumbnail text-center">
+  {{#if (eq model.membership_status 'founder')}}
+    <div class='row'>
+      {{#pl-uploader for="upload-image" multiple=false max-file-size=1024000 extensions="jpg jpeg png gif" onfileadd="uploadImage" as |queue dropzone|}}
+        <div class="dropzone thumbnail col-sm-4 col-sm-offset-4" id={{dropzone.id}}>
+          <div class="logo-wrapper">
+            <img class="model-logo"
+                 src="{{fetch-picture imagesService.groupLogoPath model.logo_url imagesService.groupLogoDefault}}"
+                 alt={{model.name}}
+            >
+          </div>
+          <span class="caption">
+            <h4>Gruppenbild wechseln</h4>
+            <p>
+              {{#if dropzone.active}}
+                {{#if dropzone.valid}}
+                  Ablegen zum Hochladen
+                {{else}}
+                  Datei ungültig
+                {{/if}}
+              {{else if queue.length}}
+                Bild wird hochgeladen
+              {{else}}
+                {{#if dropzone.enabled}}
+                  Lege das Bild hier ab oder
+                {{/if}}
+                <a id="upload-image">wähle eine Datei.</a>
+                <p class='small'>Nur JPEG, PNG oder GIF. Maximal 400KB.</p>
+              {{/if}}
+            </p>
+          </span>
+        </div>
+      {{/pl-uploader}}
+    </div>
+  {{else}}
+    <div class="logo-wrapper">
+      <img class="model-logo"
+           src="{{fetch-picture imagesService.groupLogoPath model.logo_url imagesService.groupLogoDefault}}"
+           alt={{model.name}}
+      >
+    </div>
+  {{/if}}
+  <span class="caption">
+    <h4>
+      {{#if (eq model.membership_status 'founder')}}
+        {{custom-inplace-edit text=model.name value=model.name type='input' placeholder='Gruppenname' placeholderClass='inline-item' editIcon='fa fa-edit' action='groupEdited'}}
+      {{else}}
+        {{model.name}}
+      {{/if}}
+    </h4>
+    <p>
+      {{#if (or (eq model.membership_status 'founder') (eq model.membership_status 'admin'))}}
+        {{custom-inplace-edit text=model.description value=model.description type='textarea' rows="6" placeholder='Beschreibung' placeholderClass='inline-item' editIcon='fa fa-edit' action='groupEdited'}}
+      {{else}}
+        {{model.description}}
+      {{/if}}
+    </p>
+    {{#if showSave}}
+      <button role="button" class='btn btn-sm btn-warning btn-submit' {{action 'saveGroup' model}}>
+        Speichern
+      </button>
+    {{/if}}
+    <div class="stats center-block group-stats">
+      <span>
+        <span class="badge">{{model.total_don}} €</span>
+      </span>
+      <span>
+        <span class="badge">{{model.total_km}} km</span>
+      </span>
+      <span>
+        Fahrten <span class="badge">{{model.contributions_count}}</span>
+      </span>
+    </div>
+  </span>
+  {{#if (not-eq model.membership_status 'forbidden')}}
+    <div id="buttons">
+      {{#if (eq model.membership_status 'possible')}}
+        <button role="button" class='btn btn-sm btn-success' {{action 'clickJoin' model}}>
+          beitreten
+        </button>
+      {{else if (eq model.membership_status 'pending')}}
+        <button role="button" class='btn btn-sm btn-warning' {{action 'clickLeave' model}}>
+          Anfrage abbrechen
+        </button>
+      {{else if (eq model.membership_status 'member')}}
+        <button role="button" class='btn btn-sm btn-warning' {{action 'clickLeave' model}}>
+          austreten
+        </button>
+      {{else if (eq model.membership_status 'founder')}}
+        <button role="button" class='btn btn-sm btn-danger' {{action 'clickDestroy' model}}>
+          löschen
+        </button>
+      {{/if}}
+    </div>
+  {{/if}}
+  {{#if model.applications}}
+    <h3>Anwärter</h3>
+    <ul id='users' class="list-inline model-list center-block">
+      {{#each model.applications as |application|}}
+        {{user-tile class=(if (or (eq model.membership_status 'founder') (eq model.membership_status 'admin')) 'more-height') user=application.user membership=application setApplication=true acceptMember='acceptMember' rejectMember='rejectMember'}}
+      {{/each}}
+    </ul>
+  {{/if}}
+  <h3>Mitglieder</h3>
+  <ul id='users' class="list-inline model-list center-block">
+    {{#each model.affiliations as |affiliation|}}
+      {{user-tile class=(if (or (eq model.membership_status 'founder') (eq model.membership_status 'admin')) 'more-height') user=affiliation.user membership=affiliation setMembership=(or (eq model.membership_status 'founder') (eq model.membership_status 'admin')) expelDemanded='expelDemanded'}}
+    {{else}}
+      <li><h4>Keine Mitglieder.</h4></li>
+    {{/each}}
+  </ul>
+</span>
+{{#if isShowingGroupModal}}
+  {{#tether-dialog close="destroyAborted" translucentOverlay=true target='#buttons'}}
+    <div class="text-center">
+      <h4>Achtung!</h4>
+      <p>Willst Du wirklich diese Gruppe löschen? Du kannst dies nicht rückgängig machen!</p>
+      <button class='btn btn-success' {{action 'destroyAborted'}}>Nein, behalten!</button>
+      <button class='btn btn-danger' {{action 'destroyConfirmed'}}>Ja, löschen!</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}
+{{#if isShowingMembershipModal}}
+  {{#tether-dialog close="expelAborted" translucentOverlay=true target='#buttons'}}
+    <div class="text-center">
+      <h4>Achtung!</h4>
+      <p>Willst Du wirklich diesen Nutzer aus der Gruppe entfernen? Du kannst dies nicht rückgängig machen!</p>
+      <button class='btn btn-success' {{action 'expelAborted'}}>Nein, behalten!</button>
+      <button class='btn btn-danger' {{action 'expelConfirmed'}}>Ja, entfernen!</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}

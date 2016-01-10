@@ -1,0 +1,28 @@
+<h3 class='text-center'>Passwort ändern</h3>
+{{error-list errors=resetErrors messagePath='title' errorsHeading='Es sind leider folgende Fehler aufgetreten:'}}
+{{#unless formValid}}
+  <div class='alert alert-warning'>Fast geschafft! Bitte korrigiere noch die rot markierten Felder.</div>
+{{/unless}}
+<form id='password-form' class='form-horizontal' {{action 'resetPassword' on='submit'}}>
+  {{#horizontal-aupac class='aupac-field' label='Passwort' mandatory=true errors=errors.password labelFor='password' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='password' placeholder='Passwort' class='form-control' type='password' value=password}}
+  {{/horizontal-aupac}}
+
+  {{#horizontal-aupac class='aupac-field' label='Passwort bestätigen' mandatory=true errors=errors.passwordConfirmation canShowErrors=(if passwordChanged true) labelFor='passwordConfirmation' labelClass='col-sm-3' inputWrapperClass='col-sm-7'}}
+    {{input id='passwordConfirmation' placeholder='Passwort bestätigen' class='form-control' type='password' value=passwordConfirmation}}
+  {{/horizontal-aupac}}
+    <div class='text-center'>
+      <button type='submit' class='btn btn-success' disabled={{unless passwordConfirmation true}}>
+        Abschicken
+      </button>
+    </div>
+</form>
+{{#if resetSuccess}}
+  {{#tether-dialog close="toggleModal" translucentOverlay=true target='#password-form'}}
+    <div class='text-center'>
+      <h4>Dein Passwort wurde erfolgreich geändert</h4>
+      <p>Du kannst Dich nun mit dem neuen Password anmelden.</p>
+      <button class='btn btn-warning' {{action 'transitionToLoginRoute'}}>Jetzt anmelden</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}

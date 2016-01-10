@@ -1,0 +1,10 @@
+{{#if errors}}
+  <div class="alert {{alertClass}}">
+    <h4>{{errorsHeading}}</h4>
+    <ul>
+      {{#each errorMessages as |error|}}
+        <li>{{error}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

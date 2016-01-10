@@ -1,0 +1,52 @@
+{{#home-swiper options=swiperOptions param=slide}}
+  <div class='swiper-slide logo-slide warning'>
+    <img src="assets/images/bg.png" class="img-responsive">
+    {{!inline-svg 'assets/images/bg.svg' class='bg'}}
+    {{inline-svg imagesService.appQuadrat.svg class='bg-logo'}}
+  </div>
+  <div class='swiper-slide primary'>
+    <h2 class="text-center">
+      Was ist diese App?
+    </h2>
+  </div>
+  <div class='swiper-slide success'>
+    <h2 class="text-center">
+      Wie funktioniert das Matching?
+    </h2>
+  </div>
+  <div class='swiper-slide info'>
+    <h2 class="text-center">
+      Wie spende ich?
+    </h2>
+  </div>
+  <div class='swiper-slide danger'>
+    <h2 class="text-center">
+      Alles klar?
+    </h2>
+  </div>
+{{/home-swiper}}
+<footer class="{{if logoScreen 'footer' 'footer-small'}}">
+  <div class="container">
+    <div class="navigation">
+      {{#if logoScreen}}
+        <div class="btn-group" role="group" aria-label="...">
+          <button {{action 'home'}} type="button" class="btn btn-lg btn-primary">Startseite</button>
+          <button {{action 'login'}} type="button" class="btn btn-lg btn-primary">Anmelden</button>
+          <button {{action 'register'}} type="button" class="btn btn-lg btn-primary">Registrieren</button>
+        </div>
+      {{/if}}
+      <div class="btn-group swiper-navigation" role="group" aria-label="...">
+        <span role="button" type="button" class="btn btn-success swiper-button-prev-custom">
+          {{fa-icon imagesService.up.icon fixedWidth=true class=imagesService.up.size}}
+        </span>
+        <span role="button" type="button" class="btn btn-success swiper-button-next-custom">
+          {{#if logoScreen}}
+            Was ist diese App?
+          {{else}}
+            {{fa-icon imagesService.down.icon fixedWidth=true class=imagesService.down.size}}
+          {{/if}}
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

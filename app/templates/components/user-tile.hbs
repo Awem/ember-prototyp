@@ -1,0 +1,45 @@
+<li class="models">
+  <span class="thumbnail user-thumb">
+    <div class="logo-wrapper">
+      <img class="model-logo"
+        src="{{fetch-picture (unless user.profilePictureExternal imagesService.userLogoPath) user.profile_picture_url imagesService.userLogoDefault}}"
+        alt={{user.name}}
+      >
+    </div>
+    <div class="caption">
+      <h4 class="text-center">
+        {{link-to user.name 'users.show' user}}
+      </h4>
+      <div class="stats">
+        {{#if (or (eq user.contribution_visibility 'full') correctUser)}}
+          <span>
+            <span class="badge">{{user.total_don}} €</span>
+          </span>
+          <span>
+            <span class="badge">{{user.total_km}} km</span>
+          </span>
+          <span>
+            Spenden <span class="badge">{{user.contributions_count}}</span>
+          </span>
+        {{else}}
+          <span>
+            Spenden verborgen
+          </span>
+        {{/if}}
+      </div>
+    </div>
+    {{#if setApplication}}
+      <button role="button" class='btn btn-sm btn-success' {{action 'clickAccept' membership}}>
+        Anfrage annehmen
+      </button>
+      <button role="button" class='btn btn-sm btn-warning' {{action 'clickReject' membership}}>
+        Anfrage ablehnen
+      </button>
+    {{/if}}
+    {{#if (and setMembership (not-eq membership.role 'founder'))}}
+      <button role="button" class='btn btn-sm btn-danger' {{action 'clickExpel' membership}}>
+        Mitglied entfernen
+      </button>
+    {{/if}}
+  </span>
+</li>

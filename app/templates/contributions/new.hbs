@@ -1,0 +1,12 @@
+<div class="flex-center top-buffer">
+  <ul class="nav nav-pills">
+    <li class="{{buttonClasses.trip}}">
+      <a {{action 'setForm' 'trip'}} href="javascript:void(0)">Mit Fahrt</a>
+    </li>
+    <li class="{{buttonClasses.bare}}">
+      <a {{action 'setForm' 'bare'}} href="javascript:void(0)">Ohne Fahrt</a>
+    </li>
+  </ul>
+</div>
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Es sind leider folgende Fehler aufgetreten:'}}
+{{contribution-form formType=formType contribution=this trip=this projects=projects project=project save="createContribution"}}

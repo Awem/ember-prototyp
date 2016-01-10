@@ -1,0 +1,51 @@
+<h3 class="text-center">Gruppen</h3>
+<div class="text-center">
+  {{#link-to 'groups.new' class='btn btn-sm btn-success' ariaRole='button'}}gründen{{/link-to}}
+</div>
+<div class="panel dryw-panel center-block">
+  <div class="panel-heading text-center">
+    {{#link-to 'groups.dryw'}}DRYW gesamt{{/link-to}}
+  </div>
+  <div class="panel-body stats">
+    <span>
+      <span class="badge">{{globals.jsonData.total_don}} €</span>
+    </span>
+    <span>
+      <span class="badge">{{globals.jsonData.total_km}} km</span>
+    </span>
+    <span>
+      Spenden <span class="badge">{{globals.jsonData.contributions_count}}</span>
+    </span>
+  </div>
+</div>
+<div class="flex-center">
+  <ul class="nav nav-pills">
+    <li class="{{buttonClasses.member}}">
+      <a {{action 'setFilter' 'member'}} href="javascript:void(0)">Meine Gruppen</a>
+    </li>
+    <li class="{{buttonClasses.noMember}}">
+      <a {{action 'setFilter' 'noMember'}} href="javascript:void(0)">Andere Gruppen</a>
+    </li>
+    <li class="{{buttonClasses.all}}">
+      <a {{action 'setFilter' 'all'}} href="javascript:void(0)">Alle Gruppen</a>
+    </li>
+  </ul>
+</div>
+{{error-list errors=apiErrors messagePath='detail.title' errorsHeading='Es sind leider folgende Fehler aufgetreten:'}}
+<ul id='groups' class="list-inline model-list center-pos">
+  {{#each sortedGroups as |group|}}
+    {{group-tile group=group join='join' leave='leave' destroyDemanded='destroyDemanded'}}
+  {{else}}
+    <li><h4>Keine Gruppen.</h4></li>
+  {{/each}}
+</ul>
+{{#if isShowingGroupModal}}
+  {{#tether-dialog close="destroyAborted" translucentOverlay=true target='#groups'}}
+    <div class="text-center">
+      <h4>Achtung!</h4>
+      <p>Willst Du wirklich diese Gruppe löschen? Du kannst dies nicht rückgängig machen!</p>
+      <button class='btn btn-success' {{action 'destroyAborted'}}>Nein, behalten!</button>
+      <button class='btn btn-danger' {{action 'destroyConfirmed'}}>Ja, löschen!</button>
+    </div>
+  {{/tether-dialog}}
+{{/if}}

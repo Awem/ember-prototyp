@@ -1,0 +1,26 @@
+{{#if isEditing}}
+    <form {{action "doneEditing" on="submit"}}>
+      {{#if isTypeInput}}
+        {{input class='form-control form-width center-block' value=value}}
+      {{else}}
+        {{textarea class='form-control form-width center-block' value=value rows=rows}}
+      {{/if}}
+    </form>
+{{else}}
+    <span>
+      {{#if displayPlaceholder}}
+          <div class="{{placeholderClass}}">
+            {{placeholder}}
+          </div>
+      {{else}}
+        {{text}}
+      {{/if}}
+    </span>
+    <span class="edit hide">
+      {{#if editIcon}}
+          <a {{action "toggleEditing"}} class="{{editIcon}}"></a>
+      {{else}}
+          <a {{action "toggleEditing"}} >edit</a>
+      {{/if}}
+    </span>
+{{/if}}

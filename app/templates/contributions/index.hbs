@@ -1,0 +1,23 @@
+<h3 class="text-center">Fahrten</h3>
+<div class="flex-center">
+  <ul class="nav nav-pills">
+    <li class="{{buttonClasses.open}}">
+      <a {{action 'setFilter' 'open'}} href="javascript:void(0)">Offen</a>
+    </li>
+    <li class="{{buttonClasses.paid}}">
+      <a {{action 'setFilter' 'paid'}} href="javascript:void(0)">Bezahlt</a>
+    </li>
+    <li class="{{buttonClasses.all}}">
+      <a {{action 'setFilter' 'all'}} href="javascript:void(0)">Alle</a>
+    </li>
+  </ul>
+</div>
+<ul class="list-inline model-list center-pos">
+  {{#each sortedContributions as |contribution|}}
+    {{#if contribution.created_at}}
+      {{contribution-tile contribution=contribution delete='deleteContribution'}}
+    {{/if}}
+  {{else}}
+      <li><h4>Keine Fahrten.</h4></li>
+  {{/each}}
+</ul>

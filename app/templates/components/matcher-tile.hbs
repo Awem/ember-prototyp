@@ -1,0 +1,29 @@
+<li class="models">
+  <span class="thumbnail">
+    <div class="logo-wrapper">
+      <img class="model-logo" src="{{fetch-picture (unless matcher.logoExternal imagesService.matcherLogoPath) matcher.logo_url imagesService.matcherLogoDefault}}" alt={{matcher.name}}>
+    </div>
+    <span class="caption">
+      <h4 class="text-center">
+        {{link-to matcher.name 'matchers.show' matcher}}
+      </h4>
+      <div class="stats">
+        <span>
+          Projekte <span class="badge">{{matcher.matched_projects_count}}</span>
+        </span>
+        <span>
+          Verdoppelte Spenden <span class="badge">{{matcher.supported_contributions_count}}</span>
+        </span>
+      </div>
+      <div class="budget-info center-block">
+        <span class="label label-primary label-budget">Topf:</span>
+        <div class="progress">
+          <div class="progress-bar {{progressClass}}" role="progressbar" aria-valuenow={{matcher.remaining_budget}} aria-valuemin="0" aria-valuemax={{matcher.total_budget}} style={{progressStyle}}>
+            <span>{{matcher.remaining_budget}} €</span>
+          </div>
+        </div>
+      </div>
+      <p class="description text-justify">{{truncate-string matcher.description 180}}</p>
+    </span>
+  </span>
+</li>
